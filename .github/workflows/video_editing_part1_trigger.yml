@@ -244,7 +244,7 @@ jobs:
       # Push Notebook to Kaggle
       - name: Push Notebook to Kaggle
         run: |
-          kaggle kernels push -p .
+          kaggle kernels push -p . --accelerator NvidiaTeslaT4
           echo "✅ Notebook pushed to Kaggle successfully"
           echo "📌 Kaggle will process this in the background"
           echo "🕒 Part 2 workflow will download outputs in ~10 hours"
