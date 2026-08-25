@@ -3,7 +3,7 @@ name: UPLOAD COMBINED (WITH COUNTER)
 on:
   workflow_dispatch:
   schedule:
-    # - cron: '30 7 * * *'    # 1:00 PM IST (7:30 AM UTC)
+    - cron: '30 7 * * *'    # 1:00 PM IST (7:30 AM UTC)
     # - cron: '30 9 * * *'    # 3:00 PM IST (9:30 AM UTC)
     - cron: '30 11 * * *'   # 5:00 PM IST (11:30 AM UTC)
     # - cron: '30 13 * * *'   # 7:00 PM IST (1:30 PM UTC)
@@ -22,8 +22,8 @@ jobs:
           repository: LifeWithMedical/life.with.medical
           token: ${{ secrets.PRIVATE_REPO_TOKEN }}
           sparse-checkout: |
-            counter.py
-            counter.txt
+            counter_upload.py
+            counter_upload.txt
           fetch-depth: 1
 
       # Set up Python for counter script
@@ -36,8 +36,8 @@ jobs:
       - name: Increment Counter
         id: increment
         run: |
-          python3 counter.py
-          REEL_NUMBER=$(cat counter.txt)
+          python3 counter_upload.py
+          REEL_NUMBER=$(cat counter_upload.txt)
           echo "reel_number=$REEL_NUMBER" >> $GITHUB_OUTPUT
           echo "Updated upload counter to: $REEL_NUMBER"
 
@@ -46,7 +46,7 @@ jobs:
         run: |
           git config --local user.name "github-actions"
           git config --local user.email "github-actions@github.com"
-          git add counter.txt
+          git add counter_upload.txt
           git commit -m "Update upload counter to $REEL_NUMBER" || echo "No changes to commit"
           git pull --rebase origin main || echo "No changes to pull"
           git push || echo "No changes to push"
@@ -66,7 +66,7 @@ jobs:
             INSTAGRAM/
             AI_MODELS/
             VIDEO_EDITING_QUALITY/
-            counter.txt
+            counter_upload.txt
             video_end_tracker.txt
             requirements.txt
           fetch-depth: 1
@@ -80,7 +80,7 @@ jobs:
         run: |
           REEL_NUMBER="${{ needs.update-counter.outputs.reel_number }}"
           echo "Setting sparse-checkout for reel_${REEL_NUMBER}.mp4"
-          echo "OUTPUT/reel_${REEL_NUMBER}.mp4" >> .git/info/sparse-checkout
+          echo "REELS/reel_${REEL_NUMBER}.mp4" >> .git/info/sparse-checkout
           git sparse-checkout reapply
           
       # Set up Python
@@ -122,7 +122,7 @@ jobs:
           token: ${{ secrets.PRIVATE_REPO_TOKEN }}
           sparse-checkout: |
             INSTAGRAM/
-            counter.txt
+            counter_upload.txt
             video_end_tracker.txt
             requirements.txt
           fetch-depth: 1
@@ -136,7 +136,7 @@ jobs:
         run: |
           REEL_NUMBER="${{ needs.update-counter.outputs.reel_number }}"
           echo "Setting sparse-checkout for reel_${REEL_NUMBER}.mp4"
-          echo "OUTPUT/reel_${REEL_NUMBER}.mp4" >> .git/info/sparse-checkout
+          echo "REELS/reel_${REEL_NUMBER}.mp4" >> .git/info/sparse-checkout
           git sparse-checkout reapply
       
       # Set up Python
@@ -180,7 +180,7 @@ jobs:
             FACEBOOK/
             AI_MODELS/
             VIDEO_EDITING_QUALITY/
-            counter.txt
+            counter_upload.txt
             video_end_tracker.txt
             requirements.txt
           fetch-depth: 1
@@ -194,7 +194,7 @@ jobs:
         run: |
           REEL_NUMBER="${{ needs.update-counter.outputs.reel_number }}"
           echo "Setting sparse-checkout for reel_${REEL_NUMBER}.mp4"
-          echo "OUTPUT/reel_${REEL_NUMBER}.mp4" >> .git/info/sparse-checkout
+          echo "REELS/reel_${REEL_NUMBER}.mp4" >> .git/info/sparse-checkout
           git sparse-checkout reapply
 
       # Set up Python
@@ -236,7 +236,7 @@ jobs:
           token: ${{ secrets.PRIVATE_REPO_TOKEN }}
           sparse-checkout: |
             FACEBOOK/
-            counter.txt
+            counter_upload.txt
             video_end_tracker.txt
             requirements.txt
           fetch-depth: 1
@@ -250,7 +250,7 @@ jobs:
         run: |
           REEL_NUMBER="${{ needs.update-counter.outputs.reel_number }}"
           echo "Setting sparse-checkout for reel_${REEL_NUMBER}.mp4"
-          echo "OUTPUT/reel_${REEL_NUMBER}.mp4" >> .git/info/sparse-checkout
+          echo "REELS/reel_${REEL_NUMBER}.mp4" >> .git/info/sparse-checkout
           git sparse-checkout reapply
 
       # Set up Python
